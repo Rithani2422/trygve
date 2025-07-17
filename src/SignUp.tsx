@@ -4,9 +4,10 @@ import './SignUp.css';
 interface SignUpProps {
   onBackClick: () => void;
   onLoginClick?: () => void;
+  onPhoneSubmit?: (phone: string) => void;  // new optional prop for phone submission
 }
 
-const SignUp: React.FC<SignUpProps> = ({ onBackClick, onLoginClick }) => {
+const SignUp: React.FC<SignUpProps> = ({ onBackClick, onLoginClick, onPhoneSubmit }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleSendCode = (e: React.FormEvent) => {
@@ -17,7 +18,11 @@ const SignUp: React.FC<SignUpProps> = ({ onBackClick, onLoginClick }) => {
       return;
     }
 
-    alert(`Send code to +91 ${phoneNumber}`);
+    if (onPhoneSubmit) {
+      onPhoneSubmit(phoneNumber); // send phone number to parent for OTP screen
+    } else {
+      alert(`Send code to +91 ${phoneNumber}`);
+    }
   };
 
   return (
@@ -78,5 +83,4 @@ const SignUp: React.FC<SignUpProps> = ({ onBackClick, onLoginClick }) => {
 };
 
 export default SignUp;
-
 

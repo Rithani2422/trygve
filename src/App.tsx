@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Welcome from './Welcome';
-import SignUp from './SignUp.tsx';
+import SignUp from './SignUp';
+import SignUpVerification from './SignUpVerification';
 
 const slides = [
   {
@@ -26,7 +27,7 @@ const slides = [
   },
 ];
 
-// Helpers
+// Helper to render multiline text with <br />
 function renderWithLineBreaks(text: string) {
   return text.split('\n').map((line, idx) => (
     <React.Fragment key={idx}>
@@ -36,6 +37,7 @@ function renderWithLineBreaks(text: string) {
   ));
 }
 
+// Convert multiline string to Title Case preserving line breaks
 function toTitleCase(str: string) {
   return str
     .toLowerCase()
@@ -50,10 +52,13 @@ function toTitleCase(str: string) {
 }
 
 function App() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [showWelcome, setShowWelcome] = useState<boolean>(false);
+  const [showSignUp, setShowSignUp] = useState<boolean>(false);
+  const [showOTPVerification, setShowOTPVerification] = useState<boolean>(false);
+  const [phoneForOTP, setPhoneForOTP] = useState<string | null>(null);
 
+  // Auto advance from first slide after 2.5s
   useEffect(() => {
     if (currentSlide === 0) {
       const timer = setTimeout(() => setCurrentSlide(1), 2500);
@@ -67,6 +72,29 @@ function App() {
     }
   };
 
+  const handlePhoneSubmit = (phone: string) => {
+    setPhoneForOTP(phone);
+    setShowSignUp(false);
+    setShowOTPVerification(true);
+  };
+
+  if (showOTPVerification && phoneForOTP) {
+    return (
+      <SignUpVerification
+        phoneNumber={phoneForOTP}
+        onBackClick={() => {
+          setShowOTPVerification(false);
+          setShowSignUp(true);
+        }}
+        onVerified={() => {
+          setShowOTPVerification(false);
+          setPhoneForOTP(null);
+          setShowWelcome(true);
+        }}
+      />
+    );
+  }
+
   if (showSignUp) {
     return (
       <SignUp
@@ -74,6 +102,10 @@ function App() {
           setShowSignUp(false);
           setShowWelcome(true);
         }}
+        onLoginClick={() => {
+          console.log('Login clicked');
+        }}
+        onPhoneSubmit={handlePhoneSubmit}
       />
     );
   }
@@ -93,6 +125,7 @@ function App() {
     );
   }
 
+  // Slide content
   const { image, title, tagline } = slides[currentSlide];
   const displayTitle = currentSlide === 0 ? title : toTitleCase(title);
   const titleClass = currentSlide === 0 ? 'slide-title first-slide-title' : 'slide-title';
@@ -108,18 +141,23 @@ function App() {
           <p className="slide-tagline">{tagline}</p>
         </div>
 
+        {/* Dots navigation */}
         {currentSlide >= 1 && currentSlide < slides.length && (
           <div className="dots">
-            {[1, 2, 3].map((idx) => (
-              <span
-                key={idx}
-                className={`dot ${idx === currentSlide ? 'active' : ''}`}
-                onClick={() => setCurrentSlide(idx)}
-              ></span>
-            ))}
+            {slides.slice(1).map((_, idx) => {
+              const slideIndex = idx + 1;
+              return (
+                <span
+                  key={slideIndex}
+                  className={`dot ${slideIndex === currentSlide ? 'active' : ''}`}
+                  onClick={() => setCurrentSlide(slideIndex)}
+                />
+              );
+            })}
           </div>
         )}
 
+        {/* Buttons based on slide */}
         {currentSlide === slides.length - 1 && (
           <div className="get-started-wrapper">
             <button
@@ -150,6 +188,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
