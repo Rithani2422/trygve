@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Welcome from './Welcome';
+import SignUp from './SignUp.tsx';
 
 const slides = [
   {
@@ -25,6 +26,7 @@ const slides = [
   },
 ];
 
+// Helpers
 function renderWithLineBreaks(text: string) {
   return text.split('\n').map((line, idx) => (
     <React.Fragment key={idx}>
@@ -50,6 +52,7 @@ function toTitleCase(str: string) {
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   useEffect(() => {
     if (currentSlide === 0) {
@@ -64,26 +67,35 @@ function App() {
     }
   };
 
-  const handleSkip = () => {
-    setShowWelcome(true);
-  };
-
-  const handleGetStarted = () => {
-    setShowWelcome(true);
-  };
-
-  const { image, title, tagline } = slides[currentSlide];
-  const displayTitle = currentSlide === 0 ? title : toTitleCase(title);
-  const titleClass = currentSlide === 0 ? 'slide-title first-slide-title' : 'slide-title';
+  if (showSignUp) {
+    return (
+      <SignUp
+        onBackClick={() => {
+          setShowSignUp(false);
+          setShowWelcome(true);
+        }}
+      />
+    );
+  }
 
   if (showWelcome) {
     return (
       <Welcome
-        onSignUpClick={() => console.log('Sign up clicked')}
-        onLoginClick={() => console.log('Log in clicked')}
+        onSignUpClick={() => {
+          setShowWelcome(false);
+          setShowSignUp(true);
+        }}
+        onLoginClick={() => {
+          console.log('Log in clicked');
+          // Add your login logic here
+        }}
       />
     );
   }
+
+  const { image, title, tagline } = slides[currentSlide];
+  const displayTitle = currentSlide === 0 ? title : toTitleCase(title);
+  const titleClass = currentSlide === 0 ? 'slide-title first-slide-title' : 'slide-title';
 
   return (
     <div className="slide-container">
@@ -110,15 +122,21 @@ function App() {
 
         {currentSlide === slides.length - 1 && (
           <div className="get-started-wrapper">
-            <button className="next-button get-started" onClick={handleGetStarted}>
+            <button
+              className="next-button get-started"
+              onClick={() => setShowWelcome(true)}
+            >
               Get Started
             </button>
           </div>
         )}
 
-        {currentSlide > 0 && currentSlide < slides.length - 1 && (
+        {currentSlide >= 1 && currentSlide < slides.length - 1 && (
           <div className="buttons">
-            <button className="skip-button" onClick={handleSkip}>
+            <button
+              className="skip-button"
+              onClick={() => setShowWelcome(true)}
+            >
               Skip
             </button>
             <button className="next-button" onClick={handleNext}>
@@ -132,6 +150,7 @@ function App() {
 }
 
 export default App;
+
 
 
 

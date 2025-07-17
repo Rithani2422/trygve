@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 28px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-title {
+  font-family: 'Audiowide', cursive;
+  font-size: 28px;
+  font-weight: bold;
+  color: #004080;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.signup-info {
+  font-size: 14px;
+  font-weight: normal;
+  color: #444;
+  max-width: 320px;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.phone-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 320px;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Old input group (no longer used) */
+.phone-input-group {
+  display: flex;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.country-code {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #333;
+  background-color: #eee;
+  gap: 6px;
+}
+
+.flag-icon {
+  width: 18px;
+  height: auto;
+}
+
+.phone-input-group input {
+  flex: 1;
+  border: none;
+  font-size: 16px;
+  padding: 12px 10px;
+  outline: none;
+}
+
+.logo-below-input {
+  width: 800px;
+  height: auto;
+  opacity: 0.15;
+  filter: brightness(0.6);
+  margin: -180px 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.send-code-btn {
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  max-width: 320px;
+  transition: background-color 0.3s ease;
+  margin-top: -120px;
+}
+
+.send-code-btn:hover {
+  background-color: #005ecb;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  max-width: 320px;
+}
+
+.login-text {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.login-text:hover {
+  text-decoration: underline;
+}
+
+/* ✅ New updated styles for split input blocks */
+.phone-input-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.country-code-box {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #eee;
+  padding: 8px 10px;
+  border: 1px solid #0a84d5;
+  border-radius: 8px;
+  font-size: 15px;
+  min-width: 70px;
+  justify-content: center;
+  outline: 1.8px solid #0a84d5;
+}
+
+.country-code-text {
+  font-weight: bold;
+  color: #333;
+}
+
+.phone-number-box {
+  flex: 1;
+  border: 1px solid #0a84d5;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 12px;
+  outline: 1.8px solid #0a84d5;
+}
+
+
