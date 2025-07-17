@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+/* Reset and base styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+/* Slide container */
+.slide-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Background image */
+.background-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
+/* Overlay on top of image */
+.overlay {
+  position: absolute;
+  background-color: rgba(0, 30, 100, 0.75);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Content wrapper */
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Text center alignment */
+.centered-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+}
+
+/* Slide title */
+.slide-title {
+  font-size: 52px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  text-align: center;
+  white-space: pre-line;
+  text-transform: none;
+  font-family: 'Audiowide', cursive;
+}
+
+/* First slide title specific */
+.first-slide-title {
+  font-size: 72px;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-family: 'Audiowide', cursive;
+}
+
+/* Slide tagline */
+.slide-tagline {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Dots for navigation */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: white;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Navigation buttons */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.skip-button,
+.next-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Get Started button */
+.get-started {
+  background-color: #007bff;
+  border-radius: 20px;
+  color: white;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.get-started:hover {
+  background-color: #0069d9;
+}
+
+.get-started-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
