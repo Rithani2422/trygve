@@ -1,0 +1,123 @@
+/* Full-screen wrapper */
+.signup-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f6f8ff;
+  position: relative;
+  padding: 20px;
+}
+
+/* Main container - Increased width & padding */
+.signup-details-container {
+  width: 100%;
+  max-width: 500px; /* Increased from 400px */
+  background-color: #fff;
+  padding: 40px 30px; /* Increased padding */
+  border-radius: 24px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+/* Back button */
+.back-button {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #2f5fff;
+}
+
+/* Title */
+.signup-title {
+  font-size: 24px;
+  color: #2f5fff;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  margin-left: -75px;
+}
+
+/* Subtitle */
+.signup-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+  margin-left: -200px;
+
+}
+
+/* Form styling */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signup-form input {
+  padding: 14px 18px;
+  border: 2px solid #2f5fff;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Location input - aligned left */
+.location-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.location-input input {
+  width: 100%;
+  padding-right: 40px; /* Space for icon */
+}
+
+.location-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #2f5fff;
+}
+
+/* Create account button */
+.create-account-btn {
+  background-color: #2f5fff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  padding: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-account-btn:hover {
+  background-color: #1c3edb;
+}
+.signup-bg-logo {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 800px;
+  height: auto;
+  opacity: 0.08;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+}
+

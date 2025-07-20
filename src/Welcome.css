@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
+/* Prevent unwanted horizontal scroll globally */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 .welcome-container {
   position: relative;
   display: flex;
@@ -8,9 +16,11 @@
   justify-content: center;
   text-align: center;
   height: 100vh;
+  width: 100%;
   padding: 40px 20px;
   background: white;
-  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .welcome-title {
@@ -33,7 +43,7 @@
   position: absolute;
   top: 80%;
   left: 50%;
-  width: 800px;
+  width: min(755px, 95vw);  /* Keeps it large, but inside viewport */
   height: auto;
   opacity: 0.15;
   filter: brightness(0.5);
@@ -50,7 +60,7 @@
   color: #007bff;
   position: relative;
   z-index: 1;
-  margin: -38px;
+  margin: -30px;
   user-select: none;
   line-height: 1;
 }

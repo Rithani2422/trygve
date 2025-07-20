@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './SignUpVerification.css';
+
+
 
 interface SignUpVerificationProps {
   phoneNumber: string;
@@ -13,14 +15,30 @@ const SignUpVerification: React.FC<SignUpVerificationProps> = ({
   onVerified,
 }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
- const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+
+  // Send OTP only once on first mount
+  useEffect(() => {
+    if (!otpSent) {
+      const newOtp = Array.from({ length: 6 }, () =>
+        Math.floor(Math.random() * 10)
+      ).join('');
+      setGeneratedOtp(newOtp);
+      console.log(`OTP sent to +91 ${phoneNumber}: ${newOtp}`);
+      localStorage.setItem('otp', newOtp);
+      localStorage.setItem('phoneNumber', phoneNumber);
+      setOtpSent(true);
+    }
+  }, [otpSent, phoneNumber]);
 
   const handleChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return; // Only digits
+    if (!/^\d*$/.test(value)) return;
 
-    const newOtp = [...otp];
-    newOtp[index] = value.slice(-1);
-    setOtp(newOtp);
+    const updatedOtp = [...otp];
+    updatedOtp[index] = value.slice(-1);
+    setOtp(updatedOtp);
 
     if (value && index < 5) {
       inputsRef.current[index + 1]?.focus();
@@ -32,53 +50,62 @@ const SignUpVerification: React.FC<SignUpVerificationProps> = ({
     index: number
   ) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      const prevIndex = index - 1;
-      inputsRef.current[prevIndex]?.focus();
+      inputsRef.current[index - 1]?.focus();
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (otp.some((d) => d === '')) {
-      alert('Please enter the full OTP code.');
+    if (otp.some((digit) => digit === '')) {
+      alert('Please enter the full OTP.');
       return;
     }
 
-    alert('OTP Verified!');
-    onVerified();
+    const enteredOtp = otp.join('');
+    const savedOtp = localStorage.getItem('otp');
+
+    if (enteredOtp === savedOtp) {
+      alert('OTP Verified!');
+      onVerified();
+    } else {
+      alert('Incorrect OTP. Please try again.');
+    }
   };
 
   const handleResend = () => {
-    alert(`Resend code to +91 ${phoneNumber}`);
+    const newOtp = Array.from({ length: 6 }, () =>
+      Math.floor(Math.random() * 10)
+    ).join('');
+    setGeneratedOtp(newOtp);
+    localStorage.setItem('otp', newOtp);
+    setOtp(['', '', '', '', '', '']);
+    inputsRef.current[0]?.focus();
+    alert(`Code resent to +91 ${phoneNumber}`);
+    console.log(`Resent OTP: ${newOtp}`);
   };
 
   return (
     <div className="otp-container">
-      <button className="back-button" onClick={onBackClick}>
-        ←
-      </button>
+      <button className="back-button" onClick={onBackClick}>←</button>
 
       <h2 className="otp-title">OTP Verification</h2>
+      <p className="otp-info">Enter the code sent to <strong>+91 {phoneNumber}</strong></p>
 
-      <p className="otp-info">
-        Enter the verification code we just sent to your number +91{' '}
-        {phoneNumber.slice(0, 1)}*******{phoneNumber.slice(-2)}
-      </p>
-
-      <form className="otp-form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="otp-form">
         <div className="otp-inputs">
           {otp.map((digit, i) => (
             <input
               key={i}
               type="text"
               maxLength={1}
-              className="otp-input"
               value={digit}
+              className="otp-input"
               onChange={(e) => handleChange(i, e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, i)}
               ref={(el) => {
-  inputsRef.current[i] = el;
-}}
+                inputsRef.current[i] = el;
+              }}
+
               inputMode="numeric"
               autoComplete="one-time-code"
             />
@@ -87,25 +114,18 @@ const SignUpVerification: React.FC<SignUpVerificationProps> = ({
 
         <p className="resend-text">
           Didn’t receive code?{' '}
-          <button type="button" className="resend-link" onClick={handleResend}>
-            Resend
-          </button>
+          <button type="button" onClick={handleResend} className="resend-link">Resend</button>
         </p>
 
-        {/* NEW: Logo added here */}
-        <img
-          src="/images/logo.png"
-          alt="Medical symbol"
-          className="verification-logo"
-        />
+        <img src="/images/logo.png" alt="Medical Logo" className="verification-logo" />
 
-        <button type="submit" className="verify-btn">
-          Verify
-        </button>
+        <button type="submit" className="verify-btn">Verify</button>
       </form>
     </div>
   );
 };
 
 export default SignUpVerification;
+
+
 

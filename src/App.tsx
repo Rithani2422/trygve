@@ -3,26 +3,28 @@ import './App.css';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
 import SignUpVerification from './SignUpVerification';
+import SignUpDetails from './SignUpDetails';
+import SignUpSuccess from './SignUpSuccess';
 
 const slides = [
   {
     image: '/images/1.png',
     title: 'trygve',
-    tagline: 'Trusted Guardian of Life',
+    tagline: '"Trusted Guardian of Life"',
   },
   {
     image: '/images/2.png',
-    title: 'YOUR HEALTH, OUR \n PRIORITY',
+    title: '"Your Health, Our \n Priority"',
     tagline: 'Trusted doctors and care at your doorstep.',
   },
   {
     image: '/images/3.png',
-    title: 'SEAMLESS CARE, \n DELIVERED',
+    title: '"Seamless Care, \n Delivered"',
     tagline: 'Consult, treat, and heal—hassle-free.',
   },
   {
     image: '/images/4.png',
-    title: 'AFFORDABLE \n HEALTHCARE FOR \n EVERYONE',
+    title: '"Affordable \n Healthcare for \n Everyone"',
     tagline: 'Quality care for every budget.',
   },
 ];
@@ -37,9 +39,11 @@ function renderWithLineBreaks(text: string) {
   ));
 }
 
-// Convert multiline string to Title Case preserving line breaks
 function toTitleCase(str: string) {
-  return str
+  const hasStartingQuote = str.startsWith('"');
+  const hasEndingQuote = str.endsWith('"');
+  const rawText = str.replace(/^"|"$/g, '');
+  const titleCased = rawText
     .toLowerCase()
     .split('\n')
     .map(line =>
@@ -49,6 +53,7 @@ function toTitleCase(str: string) {
         .join(' ')
     )
     .join('\n');
+  return `${hasStartingQuote ? '"' : ''}${titleCased}${hasEndingQuote ? '"' : ''}`;
 }
 
 function App() {
@@ -56,6 +61,8 @@ function App() {
   const [showWelcome, setShowWelcome] = useState<boolean>(false);
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
   const [showOTPVerification, setShowOTPVerification] = useState<boolean>(false);
+  const [showSignUpDetails, setShowSignUpDetails] = useState<boolean>(false);
+  const [showSignUpSuccess, setShowSignUpSuccess] = useState<boolean>(false);
   const [phoneForOTP, setPhoneForOTP] = useState<string | null>(null);
 
   // Auto advance from first slide after 2.5s
@@ -78,6 +85,7 @@ function App() {
     setShowOTPVerification(true);
   };
 
+  // OTP Verification page
   if (showOTPVerification && phoneForOTP) {
     return (
       <SignUpVerification
@@ -88,13 +96,45 @@ function App() {
         }}
         onVerified={() => {
           setShowOTPVerification(false);
-          setPhoneForOTP(null);
-          setShowWelcome(true);
+          setShowSignUpDetails(true);
         }}
       />
     );
   }
 
+  // Create Account page
+  if (showSignUpDetails) {
+    return (
+      <SignUpDetails
+        onBackClick={() => {
+          setShowSignUpDetails(false);
+          setShowSignUp(true);
+        }}
+        onCreateAccount={() => {
+          setShowSignUpDetails(false);
+          setShowSignUpSuccess(true);
+        }}
+      />
+    );
+  }
+
+  // Sign Up Success page
+  if (showSignUpSuccess) {
+    return (
+      <SignUpSuccess
+        onBackToLogin={() => {
+          setShowSignUpSuccess(false);
+          setShowWelcome(true);
+        }}
+        onBackClick={() => {
+          setShowSignUpSuccess(false);
+          setShowSignUpDetails(true);
+        }}
+      />
+    );
+  }
+
+  // Sign Up page
   if (showSignUp) {
     return (
       <SignUp
@@ -110,6 +150,7 @@ function App() {
     );
   }
 
+  // Welcome page
   if (showWelcome) {
     return (
       <Welcome
@@ -119,13 +160,12 @@ function App() {
         }}
         onLoginClick={() => {
           console.log('Log in clicked');
-          // Add your login logic here
         }}
       />
     );
   }
 
-  // Slide content
+  // Slide content (onboarding)
   const { image, title, tagline } = slides[currentSlide];
   const displayTitle = currentSlide === 0 ? title : toTitleCase(title);
   const titleClass = currentSlide === 0 ? 'slide-title first-slide-title' : 'slide-title';
@@ -188,9 +228,6 @@ function App() {
 }
 
 export default App;
-
-
-
 
 
 
